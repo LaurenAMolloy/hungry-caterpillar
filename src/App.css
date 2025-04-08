@@ -1,0 +1,56 @@
+:root {
+  /* Caterpillar colors */
+  --caterpillar-green: #6BA539;
+  /* leaf-green */
+  --caterpillar-red: #C42D27;
+  /* head red */
+  --caterpillar-yellow: #E2C044;
+  /* accent on face */
+
+  /* Fruit colors (approximate) */
+  --apple-red: #D64545;
+  --pear-green: #9CCB5A;
+  --plum-purple: #7D5BA6;
+  --orange-orange: #F98E3E;
+  --strawberry-red: #E63946;
+
+  /* Nature and background */
+  --leaf-green: #5D9230;
+  --sky-blue: #A3D5E0;
+  --sun-yellow: #FFD447;
+  --brown-stem: #8B5E3C;
+
+  /* Texture-style neutrals */
+  --paper-white: #FDF6E3;
+  --shadow-gray: #8A8A8A;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif
+}
+
+main {
+  background-color: var(--leaf-green);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameCard {
+  background-color: var(--paper-white);
+  width: 700px;
+  height: 700px;
+  border-radius: 2rem;
+  text-align: center;
+  border: 4px solid var(--plum-purple)
+}
+
+.fruit {
+  width: 100px;
+  height: 100px;
+}
