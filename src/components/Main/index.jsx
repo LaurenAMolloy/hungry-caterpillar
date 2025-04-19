@@ -1,16 +1,10 @@
 import React from 'react'
 import GameCard  from '../GameCard'
 
-export default function Main({ fruitElements, fruits, generateRandomImages}) {
-  //Create the hold button
-  //Create the hold mechanism
-  //Check if the game is won
-  //Release the confetti
-  //New Game option
-
+export default function Main( {fruitElements, allNewFruit, setFruit, fruitsArr, gameWon}) {
   return (
     <main>
-        <GameCard fruits={fruits} generateRandomImages={generateRandomImages} fruitElements={fruitElements} />
+        <GameCard setFruit={setFruit} fruitElements={fruitElements} allNewFruit={allNewFruit} fruitsArr={fruitsArr} gameWon={gameWon} />
     </main>
   )
 }

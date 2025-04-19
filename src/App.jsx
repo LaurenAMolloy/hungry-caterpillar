@@ -1,66 +1,84 @@
 import './App.css'
 import { Main } from './components'
-import { useState} from 'react'
+import { useState } from 'react'
 import { nanoid } from 'nanoid'
 import { Fruit } from './components'
 import apple from './assets/apple.png'
-import oranges from './assets/oranges.png'
+import orange from './assets/orange.png'
 import pear from './assets/pear.png'
-import plums from './assets/plums.png'
-import strawberries from './assets/strawberries.png'
+import plum from './assets/plum.png'
+import strawberry from './assets/strawberry.png'
+import Confetti from 'react-confetti'
 
 export default function App() {
   //Array of images
   const fruitsArr = [
     { src: apple, value: "apple" },
-    { src: oranges, value: "orange" },
+    { src: orange, value: "orange" },
     { src: pear, value: "pear" },
-    { src: strawberries, value: "strawberry" },
-    { src: plums, value: "plum" },
+    { src: strawberry, value: "strawberry" },
+    { src: plum, value: "plum" },
   ]
-  
-  const [fruit, setFruit] = useState(()=>generateRandomImages())
-  
 
-  //Create the array of 10 random images
-  function generateRandomImages(){
-    //Array to hold random images
-    let randomImages = [];
-   
-    //loop 10 time to create random fruits
+  //Call new fruit as soon as page loads
+  const [fruit, setFruit] = useState(() => allNewFruit())
+
+  //We want to indicate to the user that the game is over
+  //if (1) all the dice are held, and 
+  //(2) all the dice have the same value.
+  //We can use the .every()
+  //.every returns a bool
+
+  const gameWon = fruit.every(fruitBtn => fruitBtn.value === fruit[0].value) &&
+  fruit.every(fruitBtn => fruitBtn.isHeld)
+    
+  function allNewFruit() {
+    //randomFruit array
+    let newFruitArr =[]
+    //loop 10 times to create 10 dice
     for(let i=0; i<10; i++) {
-       //Get a random index
-       const randomIndex = Math.floor(Math.random() * fruitsArr.length)
-       const fruitsData = fruitsArr[randomIndex]
-       //{ src: apple value: "apple"}
-
-       //Make A fruit object based on the random index
-        const fruitObj = {
-        src: fruitsData.src,
-        value: fruitsData.value,
-        id: nanoid(),
-        isHeld: false, 
+      const randNum = Math.floor(Math.random() * fruitsArr.length)
+      const randImg = fruitsArr[randNum]
+      //push object with
+      newFruitArr.push({
+        //existing array plus
+        ...randImg,
+        id:nanoid(),
+        isHeld: false})
     }
-    randomImages.push(fruitObj)
-  }
-  return randomImages
+    console.log(newFruitArr)
+    return newFruitArr
   }
 
-  const fruitElements= fruit.map((fruitObj) => {
-    return (<Fruit 
-    src={fruitObj.src}
-    value={fruitObj.value}
-    id={fruitObj.id}
-    isHeld={fruitObj.isHeld}
-    key={fruitObj.id}
+  function hold(id) {
+    //console.log(id)
+    // Always guaranteed to be the latest fruit state
+    setFruit(oldFruit => {
+      return oldFruit.map(fruit => {
+        return fruit.id === id 
+        ? {...fruit, isHeld: !fruit.isHeld} : fruit
+      })
+    })
+  }
+
+
+
+  //Map over the array of objects to render the component
+  const fruitElements =fruit.map((fruit) => {
+    return <Fruit
+     src={fruit.src}
+     value={fruit.value}
+     id={fruit.id}
+     key={fruit.id}
+     isHeld={fruit.isHeld}
+     hold={hold}
      />
-    )
-  })
 
-  
+  })
   return (
     <>
-      <Main fruitElements={fruitElements}   />
+      {gameWon && <Confetti />}
+      <Main setFruit={setFruit} fruitElements={fruitElements} allNewFruit={allNewFruit} fruitsArr={fruitsArr} gameWon={gameWon} />
     </>
   )
 }
