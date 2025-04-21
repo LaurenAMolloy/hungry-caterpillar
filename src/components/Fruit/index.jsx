@@ -8,7 +8,13 @@ export default function Fruit( { src, value, id, hold, isHeld }) {
       <button 
       style={styles}  
       onClick={() => hold(id)} 
-      className="fruitBtn" value={value} id={id} >
+      className="fruitBtn" 
+      value={value} 
+      id={id}
+      aria-pressed ={isHeld} 
+      aria-label = {`Fruit with value ${value},
+      ${isHeld ? "held" : "not held"}`}
+      >
       <img  className='fruit-img' src={src}></img>
       </button>
   )

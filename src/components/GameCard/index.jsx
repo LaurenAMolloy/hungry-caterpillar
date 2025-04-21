@@ -1,22 +1,23 @@
 import React from 'react'
 
-export default function GameCard({fruitElements, setFruit, fruitsArr, gameWon }) {
+export default function GameCard({fruitElements, setFruit, fruitsArr, gameWon, allNewFruit, newGameButton }) {
 
   function getNewFruits(){
-   //update this function to look through existing dice and not roll if isHeld = true
-   //update the img and src
-  
-    setFruit(oldFruit => {
-    return oldFruit.map(fruit => {
-      return fruit.isHeld ? fruit :
-       {
-        //existing properties from fruit are kept
-        ...fruit, 
-        //random properties from the array are added to src and value from fruitsArr
-        ...fruitsArr[Math.floor(Math.random() * fruitsArr.length)]
-       } 
-    })
-  })
+    if (!gameWon) {
+      setFruit(oldFruit => {
+        return oldFruit.map(fruit => {
+          return fruit.isHeld ? fruit :
+           {
+            //existing properties from fruit are kept
+            ...fruit, 
+            //random properties from the array are added to src and value from fruitsArr
+            ...fruitsArr[Math.floor(Math.random() * fruitsArr.length)]
+           } 
+        })
+      })
+    } else {
+      setFruit(allNewFruit)
+    }
   }
 
   return (
@@ -26,7 +27,11 @@ export default function GameCard({fruitElements, setFruit, fruitsArr, gameWon })
         <div className="fruits-container">
           {fruitElements}
         </div>
-        <button onClick={() => getNewFruits()} className="newFruitsBtn">{gameWon ? "Game Won" : "New Fruits"}</button>  
+        <button 
+        ref={newGameButton} 
+        onClick={() => getNewFruits()} 
+        className="newFruitsBtn">{gameWon ? "New Game" : "New Fruits"}
+        </button>  
     </div>
   )
 }

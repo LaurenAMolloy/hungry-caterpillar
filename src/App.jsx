@@ -1,6 +1,6 @@
 import './App.css'
 import { Main } from './components'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { nanoid } from 'nanoid'
 import { Fruit } from './components'
 import apple from './assets/apple.png'
@@ -22,15 +22,19 @@ export default function App() {
 
   //Call new fruit as soon as page loads
   const [fruit, setFruit] = useState(() => allNewFruit())
-
-  //We want to indicate to the user that the game is over
-  //if (1) all the dice are held, and 
-  //(2) all the dice have the same value.
-  //We can use the .every()
-  //.every returns a bool
+  //Create a ref
+  const newGameButton = useRef(null)
+  //Object with a current property
+  console.log(newGameButton)
 
   const gameWon = fruit.every(fruitBtn => fruitBtn.value === fruit[0].value) &&
   fruit.every(fruitBtn => fruitBtn.isHeld)
+
+  useEffect(function() {
+    if(gameWon) {
+      newGameButton.current.focus()
+    }
+  }, [gameWon]) 
     
   function allNewFruit() {
     //randomFruit array
@@ -61,8 +65,6 @@ export default function App() {
     })
   }
 
-
-
   //Map over the array of objects to render the component
   const fruitElements =fruit.map((fruit) => {
     return <Fruit
@@ -78,7 +80,10 @@ export default function App() {
   return (
     <>
       {gameWon && <Confetti />}
-      <Main setFruit={setFruit} fruitElements={fruitElements} allNewFruit={allNewFruit} fruitsArr={fruitsArr} gameWon={gameWon} />
+      <div aria-live="polite" className="sr-only">
+        {gameWon && <p>Congratulations! You Won! Press "New Game" to start again</p>}
+      </div>
+      <Main setFruit={setFruit} fruitElements={fruitElements} allNewFruit={allNewFruit} fruitsArr={fruitsArr} gameWon={gameWon} newGameButton={newGameButton} />
     </>
   )
 }

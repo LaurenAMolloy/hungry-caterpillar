@@ -49,8 +49,8 @@ main {
 }
 
 .fruit-img {
-  height: 100%;
-  width: 100%;
+  height: 90%;
+  width: 90%;
   object-fit: contain;
 }
 
@@ -65,7 +65,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-shadow: 10px 5px 5px var(--shadow-gray);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15)
 }
 
 .fruits-container {
@@ -103,4 +103,16 @@ main {
 .newFruitsBtn:hover {
   background-color: var(--leaf-green);
   transform: scale(1.05);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
